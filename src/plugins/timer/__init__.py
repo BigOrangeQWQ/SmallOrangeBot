@@ -47,3 +47,5 @@ async def add():
         pass
 
 timelist = on_command(cmd='timelist', aliases={'时间排行榜'}, priority=5)
+
+test
