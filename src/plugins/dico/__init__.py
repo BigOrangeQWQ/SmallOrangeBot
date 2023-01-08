@@ -1,4 +1,4 @@
-import json
+from json import load
 from nonebot import get_driver
 from nonebot.plugin import on_startswith
 from nonebot.adapters.onebot.v11 import GroupMessageEvent
@@ -30,9 +30,9 @@ async def load_cache():
     """
     if plugin_config.save_type == 'file':
         with open(plugin_config.card_file, 'r', encoding='utf-8') as f:
-            _cache_player_: dict[str,dict[str,int]] = json.load(f)
+            _cache_player_: dict[str,dict[str,int]] = load(f)
         with open(plugin_config.log_file, 'r', encoding='utf-8') as f:
-            _cache_log_: dict[str, list[str]] = json.load(f)
+            _cache_log_: dict[str, list[str]] = load(f)
     if plugin_config.save_type == 'sqlite':
         #TODO: need sqlite loading cache
         ...

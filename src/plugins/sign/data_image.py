@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 from PIL.ImageDraw import Draw
 from pathlib import Path
 from httpx import AsyncClient
-import aiohttp
 import os
 
 DATA = Path("./data/resource")
