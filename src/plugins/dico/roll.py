@@ -4,7 +4,7 @@
 from typing import Optional
 import onedice
 
-from .card import get_card
+from . import cards
 
 def random(statement: str = '1d100') -> int:
     """
@@ -69,7 +69,7 @@ def RA(player_name: str, user_id: int, item: str, attr: Optional[int]) -> str:
         fun('name', 110, '测试', 100)
         [out]name[100]进行了[测试]检定1D100=result [msg]
     """
-    attrs: int = get_card(user_id).get(item, 0) 
+    attrs: int = cards.get_card(user_id).get(item, 0) 
     if attr is not None:
         attrs = attr
     result: int = random()
