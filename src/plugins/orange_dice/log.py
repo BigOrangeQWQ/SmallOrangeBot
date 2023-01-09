@@ -1,8 +1,11 @@
 from os.path import exists
 from json import load, dump
 from typing import TypedDict
+from nonebot import get_driver
 
-from . import plugin_config
+from .config import Config
+
+plugin_config = Config.parse_obj(get_driver().config)
 
 LogType = TypedDict('Log', {'msg': list[str], 'log': bool})
 class Log:

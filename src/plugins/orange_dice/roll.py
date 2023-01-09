@@ -4,7 +4,6 @@
 from typing import Optional
 import onedice
 
-from . import cards
 
 def random(statement: str = '1d100') -> int:
     """
@@ -20,35 +19,28 @@ def random(statement: str = '1d100') -> int:
     result.roll()
     if result.resError is not None:
         return 0
-    return result.resInt #type:ignore
+    return result.resInt  # type:ignore
 
-def RD(player_name: Optional[str], item: Optional[str], statement: str = '1d100') -> str:
+
+def RD(player_name: Optional[str], statement: str = '1d100', item: str = '', ) -> str:
     """
     进行骰点并返回骰点消息
-    
+
     Args:
         player_name: Optional[str] 玩家名字
         item: Optional[str] 检定技能
         statement: str = '1d100' [onedice]骰子检定公式
-        
+
     Return:
         str 检定后信息
-        
-    Example:
-        [in].rd测试 
-        fun('测试','PlayerName','1D100')
-        [out]进行了[测试]检定1D100=result
-        
-        [in].r
-        fun('PlayerName')
-        [out]进行了检定1D100=result
     """
+    statement = '1d100' if statement == 'd' or statement == '' else statement
     result = random(statement)
-    if item != None:
-        return f"{player_name}进行了[{item}]检定{statement.upper()}={result}"
-    return f"{player_name}进行了检定{statement.upper()}={result}"
+    item = f'[{item}]' if item != '' else ''
+    return f"{player_name}进行了{item}检定{statement.upper()}={result}"
 
-def RA(player_name: str, user_id: int, item: str, attr: Optional[int]) -> str:
+
+def RA(player_name: Optional[str], user_id: int, item: str, attr: Optional[int], card: dict[str, int]) -> str:
     """进行检定并返回骰点信息
 
     Args:
@@ -59,31 +51,21 @@ def RA(player_name: str, user_id: int, item: str, attr: Optional[int]) -> str:
 
     Returns:
         str: 检定后信息
-    
-    Example:
-        [in].ra测试
-        fun('name', 110, '测试')
-        [out]name[attr]进行了[测试]检定1D100=result [msg]
-        
-        [in].ra测试100
-        fun('name', 110, '测试', 100)
-        [out]name[100]进行了[测试]检定1D100=result [msg]
     """
-    attrs: int = cards.get_card(user_id).get(item, 0) 
-    if attr is not None:
-        attrs = attr
+    attrs: int = card.get(item, 0)
+    attrs = attr if attr is not None else attrs
     result: int = random()
     msg = '失败~'
-    if(result > 95):
+    if (result > 95):
         msg = "大失败~"
-    if(result < attrs):
+    if (result < attrs):
         msg = '成功！'
-    if(result < attrs*0.5):
+    if (result < attrs*0.5):
         msg = '困难成功！'
-    if(result < attrs*0.2):
+    if (result < attrs*0.2):
         msg = "极限成功！"
-    if(result < 5):
+    if (result < 5):
         msg = "大成功！！"
-    if(result == 0):
+    if (result == 0):
         return f'{player_name}没有这个属性'
     return f"{player_name}[{attrs}]进行了[{item}]检定1D100={result} {msg}"

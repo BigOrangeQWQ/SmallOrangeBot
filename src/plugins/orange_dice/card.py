@@ -1,8 +1,12 @@
 
 from os.path import exists
-from . import plugin_config
 from json import dump, load
 from re import findall
+from nonebot import get_driver
+
+from .config import Config
+
+plugin_config = Config.parse_obj(get_driver().config)
 
 class Card:
     

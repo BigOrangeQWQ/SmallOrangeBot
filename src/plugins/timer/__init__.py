@@ -31,19 +31,19 @@ __time_data__: Dict[Literal['team','player'], Dict[str, int]] = {}
 __server_ip__ = ''
 
 
-async def get_player_list() -> list[str]:
-    server = await mcstatus.JavaServer.async_lookup(__server_ip__)
-    sample = server.status().players.sample
-    if sample is not None:
-        return [i.name for i in sample]
-    else:
-        return []
+# async def get_player_list() -> list[str]:
+#     server = await mcstatus.JavaServer.async_lookup(__server_ip__)
+#     sample = server.status().players.sample
+#     if sample is not None:
+#         return [i.name for i in sample]
+#     else:
+#         return []
     
-@scheduler.scheduled_job("cron", second='*')
-async def add():
-    # __sign_data__.clear()
-    player_list = await get_player_list()
-    for i in player_list:
-        pass
+# @scheduler.scheduled_job("cron", second='*')
+# async def add():
+#     # __sign_data__.clear()
+#     player_list = await get_player_list()
+#     for i in player_list:
+#         pass
 
 timelist = on_command(cmd='timelist', aliases={'时间排行榜'}, priority=5)
