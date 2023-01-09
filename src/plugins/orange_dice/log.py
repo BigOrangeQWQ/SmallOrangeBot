@@ -1,9 +1,9 @@
+from os.path import exists
 from json import load, dump
-import os
-from typing import Literal, TypedDict
+from typing import TypedDict
+
 from . import plugin_config
 
-    
 LogType = TypedDict('Log', {'msg': list[str], 'log': bool})
 class Log:
     
@@ -21,7 +21,7 @@ class Log:
             dump(self._cache_log_, f)
         
     def read_json(self):
-        if os.path.exists(plugin_config.log_file):
+        if exists(plugin_config.log_file):
             with open(plugin_config.log_file, 'r', encoding='utf-8') as f:
                 self._cache_log_ = load(f)
         else:

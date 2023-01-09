@@ -1,6 +1,5 @@
-players = dict[str, dict[str, int]]
 
-import os
+from os.path import exists
 from . import plugin_config
 from json import dump, load
 from re import findall
@@ -47,7 +46,7 @@ class Card:
             dump(self._cache_player_, open(plugin_config.card_file,'w',encoding='utf-8'))
 
     def read_json(self):
-        if os.path.exists(plugin_config.card_file):
+        if exists(plugin_config.card_file):
             with open(plugin_config.card_file, 'r', encoding='utf-8') as f:
                 self._cache_player_: dict[str,dict[str,int]] = load(f)
         else:
