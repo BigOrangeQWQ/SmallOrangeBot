@@ -5,7 +5,7 @@ from typing import Optional
 import onedice
 
 
-def random(statement: str = '1d100') -> int:
+def random(statement: str = '1d100', values: Optional[dict] = None) -> int:
     """
     使用onedice进行骰点
 
@@ -15,7 +15,7 @@ def random(statement: str = '1d100') -> int:
     Returns:
         int: 骰点后结果
     """
-    result = onedice.RD(statement)
+    result = onedice.RD(statement, valueTable=values)
     result.roll()
     if result.resError is not None:
         return 0
@@ -40,7 +40,7 @@ def RD(player_name: Optional[str], statement: str = '1d100', item: str = '', ) -
     return f"{player_name}进行了{item}检定{statement.upper()}={result}"
 
 
-def RA(player_name: Optional[str], user_id: int, item: str, attr: Optional[int], card: dict[str, int]) -> str:
+def RA(player_name: Optional[str], item: str, attr: Optional[int], card: dict[str, int]) -> str:
     """进行检定并返回骰点信息
 
     Args:
