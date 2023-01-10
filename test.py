@@ -23,21 +23,28 @@
 # print(1 | 1)
 # print(0 | 0)
 
-import onedice
-rd_para = onedice.RD("1d3+1d5")
-print(rd_para.originData)
-rd_para.roll()
-print('----------------')
-if rd_para.resError != None:
-    print(rd_para.resError)
-else:
-    print(rd_para.resInt)
-    print(rd_para.resIntMax)
-    print(rd_para.resIntMin)
-    print(rd_para.resIntMaxType)
-    print(rd_para.resIntMinType)
-    print(rd_para.resDetail)
-    print(rd_para.resDetailData)
-    print(rd_para.resMetaTuple)
-    print(rd_para.resMetaTupleEnable)
-print('================')
+# import onedice
+# rd_para = onedice.RD("1d3+1d5")
+# print(rd_para.originData)
+# rd_para.roll()
+# print('----------------')
+# if rd_para.resError != None:
+#     print(rd_para.resError)
+# else:
+#     print(rd_para.resInt)
+#     print(rd_para.resIntMax)
+#     print(rd_para.resIntMin)
+#     print(rd_para.resIntMaxType)
+#     print(rd_para.resIntMinType)
+#     print(rd_para.resDetail)
+#     print(rd_para.resDetailData)
+#     print(rd_para.resMetaTuple)
+#     print(rd_para.resMetaTupleEnable)
+# print('================')
+
+from pathlib import Path
+
+
+a = Path('./data/log_cache.txt')
+print(a.absolute())
+print(a.as_posix())

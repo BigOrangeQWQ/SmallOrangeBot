@@ -31,7 +31,7 @@ cards = Card()
 logs = Log()
 
 
-@driver.on_startup
+
 async def load_cache():
     """
     加载缓存文件
@@ -43,6 +43,20 @@ async def load_cache():
         # TODO:
         ...
 
+async def save_cache():
+    """
+    储存缓存文件
+    """
+    if plugin_config.save_type.lower() == 'file':
+        cards.save_json()
+        logs.save_json()
+    if plugin_config.save_type.lower() == 'sqlite':
+        # TODO:
+        ...
+
+driver.on_startup(load_cache)
+driver.on_shutdown(save_cache)
+driver.on_bot_disconnect(save_cache)
 
 @roll.handle()
 async def roll_handle(matcher: Matcher, event: GroupMessageEvent):
@@ -133,16 +147,17 @@ async def log_handle(matcher: Matcher, event: GroupMessageEvent, bot: Bot):
     group_id = event.group_id
     if msg == 'on':
         logs.log_on(group_id)
-        await matcher.finish("已关闭记录日志")
+        await matcher.finish("已开启记录日志")
     if msg == 'off':
         logs.log_off(group_id)
-        await matcher.finish("已开始记录日志")
+        await matcher.finish("已关闭记录日志")
     if msg == 'upload':
         file = logs.log_upload(group_id)
         try:
             await bot.upload_group_file(group_id=group_id, file=file, name=f'logs-{event.message_id}.txt')
         except:
             await matcher.finish("上传群文件失败，请检查橘子的权限。")
+        await matcher.finish("已上传至群文件")
     if msg == 'clear':
         logs.log_clear(group_id)
         await matcher.finish("已清除此群之前的所有日志信息")

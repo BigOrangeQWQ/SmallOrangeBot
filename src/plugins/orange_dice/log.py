@@ -48,7 +48,7 @@ class Log:
         Returns:
             bool: 记录中返回True
         """
-        return self._cache_log_[str(group_id)].get('log',)
+        return self._cache_log_.get(str(group_id),{}).get('log', False)
 
     def log_on(self, group_id: int):
         """
@@ -57,7 +57,10 @@ class Log:
         Args:
             group_id (int): 群号
         """
-        self._cache_log_[str(group_id)]['log'] = True
+        try:
+            self._cache_log_[str(group_id)]['log'] = True
+        except KeyError:
+            self._cache_log_[str(group_id)] = {'msg': ['初始化'], 'log': True}
 
     def log_off(self, group_id: int):
         """
@@ -66,7 +69,10 @@ class Log:
         Args:
             group_id (int): 群号
         """
-        self._cache_log_[str(group_id)]['log'] = False
+        try:
+            self._cache_log_[str(group_id)]['log'] = False
+        except KeyError:
+            self._cache_log_[str(group_id)] = {'msg': ['初始化'], 'log': False}
 
     def log_add_message(self, group_id: int, message: str):
         """
@@ -99,5 +105,5 @@ class Log:
         with open(plugin_config.cache_file, 'w', encoding='utf-8') as f:
             for i in self._cache_log_[str(group_id)]['msg']:
                 f.write(f"{i}\n")
-        return plugin_config.cache_file
+        return Path(plugin_config.cache_file).absolute().as_posix()
         
