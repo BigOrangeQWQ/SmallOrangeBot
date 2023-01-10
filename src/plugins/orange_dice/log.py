@@ -20,10 +20,17 @@ class Log:
         """
     
     def save_json(self):
+        """
+        使用json文件储存数据
+        """
         with open(plugin_config.log_file, 'w', encoding='utf-8') as f:
             dump(self._cache_log_, f)
         
     def read_json(self):
+        """
+        读取json文件数据
+        若文件不存在则创建
+        """
         if exists(plugin_config.log_file):
             with open(plugin_config.log_file, 'r', encoding='utf-8') as f:
                 self._cache_log_ = load(f)
@@ -31,7 +38,8 @@ class Log:
             self.save_json()
         
     def is_loging(self, group_id: int) -> bool:
-        """检测某群是否正在记录日志
+        """
+        检测某群是否正在记录日志
 
         Args:
             group_id (int): 群号
@@ -42,9 +50,28 @@ class Log:
         return self._cache_log_[str(group_id)].get('log',)
     
     def log_on(self, group_id: int):
-        """开启某群
+        """
+        开启某群的日志记录功能
 
         Args:
-            group_id (int): _description_
+            group_id (int): 群号
         """
-        ...
+        self._cache_log_[str(group_id)]['log'] = True
+    
+    def log_off(self, group_id: int):
+        """
+        关闭某群的日志记录功能
+
+        Args:
+            group_id (int): 群号
+        """
+        self._cache_log_[str(group_id)]['log'] = False
+    
+    def log_add_message(self, group_id: int , message: str):
+        """
+        为日志增加消息
+
+        Args:
+            message (str): 需增加的消息
+        """
+        self._cache_log_[str(group_id)]['msg'].append(message)
