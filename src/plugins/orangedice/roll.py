@@ -2,24 +2,21 @@
 骰点相关，使用onedice协议
 """
 from typing import Optional
-import onedice
 
+from .dice import Lexer, Parser
 
-def random(statement: str = '1d100', values: Optional[dict] = None) -> int:
+def random(statement: str = '1d100') -> int:
     """
     使用onedice进行骰点
 
     Args:
-        statement (str, optional): [onedice]公式. Defaults to '1d100'.
+        statement (str, optional): [onedice]公式. 默认为 '1d100'.
 
     Returns:
         int: 骰点后结果
     """
-    result = onedice.RD(statement, valueTable=values)
-    result.roll()
-    if result.resError is not None:
-        return 0
-    return result.resInt  # type:ignore
+    return int(Parser(Lexer(statement)).parse())
+
 
 
 def RD(player_name: Optional[str], statement: str = '1d100', item: str = '', ) -> str:
